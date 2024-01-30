@@ -1,3 +1,4 @@
+import glob
 import cv2
 import time
 import os
@@ -5,7 +6,9 @@ import handtrackingmodule as htm
 
 wCam,hCam=960,540
 
-cap=cv2.VideoCapture(0)
+# cap=cv2.VideoCapture(0)
+cap= cv2.imread("Pictures/55.png")
+
 cap.set(3,wCam)
 cap.set(4,hCam)
 

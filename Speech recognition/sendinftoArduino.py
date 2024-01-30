@@ -1,6 +1,6 @@
 import serial
 from time import sleep
-arduinoData=serial.Serial('COM5',115200, write_timeout=100)
+arduinoData=serial.Se.prial('COM5',115200, write_timeout=100)
 
 while True:
     cmd=input('Command: ')
