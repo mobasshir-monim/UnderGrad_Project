@@ -3,6 +3,7 @@ import json
 from vosk import Model, KaldiRecognizer
 from threading import Thread
 from queue import Queue
+from time import sleep
 
 p = pyaudio.PyAudio()
 for i in range(p.get_device_count()):
@@ -21,7 +22,25 @@ recordings = Queue()
 
 from speak import SpeakText
 
-# from send_data import send_coeffs
+from send_data import send_coeffs
+
+
+def recognize_dummy(text: str):
+    if text == "one":
+        return [0, 1, 1, 1, 1, 1]
+    if text == "two":
+        return [0, 0, 1, 1, 1, 1]
+    if text == "three":
+        return [0, 0, 0, 1, 1, 1]
+
+
+def send_text(text: str):
+    for split_text in str(text).split(" "):
+        split_text = split_text.lower()
+        send_coeffs(recognize_dummy(split_text))
+        print(split_text)
+        SpeakText(split_text)
+        sleep(0.5)
 
 
 def record_microphone(
@@ -106,11 +125,6 @@ from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.label import MDLabel
 from kivymd.uix.button import MDRaisedButton
 from kivymd.uix.screen import MDScreen
-
-
-def print_shit(dd):
-    print("shit...")
-    print(dd.parent.parent.parent.output.text)
 
 
 class SpeechRecognitionScreen(MDScreen):
