@@ -1,0 +1,1 @@
+<Thread(Thread-10 (speech_recognition), started 30344)>

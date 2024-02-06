@@ -1,0 +1,5 @@
+{
+    "sketch": "Hand Tracing\\testing.ino\\testing.ino.ino",
+    "board": "arduino:avr:uno",
+    "port": "COM7"
+}
