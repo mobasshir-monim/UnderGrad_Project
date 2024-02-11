@@ -5,6 +5,15 @@
 		},
 		{
 			"path": "Hand Tracing"
+		},
+		{
+			"path": "arduino_com"
+		},
+		{
+			"path": "poseEstimation"
+		},
+		{
+			"path": "landmarks"
 		}
 	],
 	"settings": {}

@@ -70,7 +70,7 @@ class poseDetector():
     #                     cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)
     #     return angle
 def main():
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(r"M:\Robotics\underGrad Project\Software\Hand Tracing\pexels-allan-mas-5362370 (720p).mp4")
     pTime = 0
     detector = poseDetector()
     while True:
