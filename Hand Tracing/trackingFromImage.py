@@ -10,8 +10,10 @@ pTime = 0
 cTime = 0
 # cap = cv2.VideoCapture(0)
 directory_path=r"M:\Robotics\underGrad Project\Software\Hand Tracing\Pictures"
+files=[]
 for filename in os.listdir(directory_path):
     if filename.endswith('.jpg') or filename.endswith('.png'):
+        files=os.path.splitext(filename)[0]
                     # Read image from file
         image = cv2.imread(os.path.join(directory_path, filename))
         # image=cv2.imread("Pictures/1.png")
@@ -22,7 +24,7 @@ for filename in os.listdir(directory_path):
         # success, img = cap.read()
         img = detector.findHands(image)
         lmList = detector.findPosition(image)
-        print(lmList)
+        # print(lmList)
         if len(lmList) != 0:
             fingers=[]
                 # thumb    
@@ -50,12 +52,12 @@ for filename in os.listdir(directory_path):
             if lmList[tips[0]][1]>=lmList[tips2[1]][1] and lmList[tips2[0]][1]<=lmList[tips2[2]][1]:
                 fingers.append(0.5)
             elif lmList[tips[0]][1]<lmList[tips[2]][1]:
-                fingers.append(1)
+                fingers.append(0)
             else:
-                fingers.append(0)       
+                fingers.append(1)       
             
         print(fingers)    
-        print(totalFingers)      
+        # print(totalFingers)      
         text=[]  
         if totalFingers==1:
             text="one"
@@ -69,12 +71,12 @@ for filename in os.listdir(directory_path):
             text="five"
         else:
             text="no finger shown"
-        print(text)
+        # print(text)
 
         if lmList:
             break       
 
-
+        # print(os.path.splitext(filename)[0])
 
 
 
@@ -88,8 +90,8 @@ for filename in os.listdir(directory_path):
     cv2.waitKey(1)
 
     # print(fingers[1])
-    df = pd.DataFrame({'mot1': fingers[1], 'mot2': fingers[2], 'mot2': fingers[2],'mot3': fingers[3],'mot4': fingers[4],'mot5':fingers[0],'wrist':fingers[5]}, index=[text])
+    df = pd.DataFrame({'index': fingers[1], 'middle': fingers[2],'ring': fingers[3],'pinky': fingers[4],'thumb':fingers[0],'wrist':fingers[5]}, index=[files])
     df.to_csv("datasets.csv",mode="a")    
 
-    print(df) 
+print(df) 
         

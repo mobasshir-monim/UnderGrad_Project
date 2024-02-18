@@ -1,32 +1,38 @@
 import cv2
 import mediapipe as mp
 import numpy as np
+import os
+import pandas as pd
 mp_drawing = mp.solutions.drawing_utils
 mp_drawing_styles = mp.solutions.drawing_styles
 mp_holistic = mp.solutions.holistic
 
-# # For static images:
-# IMAGE_FILES = [r"M:\Robotics\underGrad Project\Software\landmarks\WIN_20240210_22_31_08_Pro.jpg"]
+# window_name = "window"
+# For static images:
+# # IMAGE_FILES = [r"M:\Robotics\underGrad Project\Software\Hand Tracing\Picture"]
 # BG_COLOR = (192, 192, 192) # gray
 # with mp_holistic.Holistic(
 #     static_image_mode=True,
 #     model_complexity=2,
 #     enable_segmentation=True,
 #     refine_face_landmarks=True) as holistic:
-#   for idx, file in enumerate(IMAGE_FILES):
-#     image = cv2.imread(file)
+#     directory_path=r"M:\Robotics\underGrad Project\Software\Hand Tracing\Picture"
+#     for filename in os.listdir(directory_path):
+#         if filename.endswith('.jpg') or filename.endswith('.png'):
+#                         # Read image from file
+#             image = cv2.imread(os.path.join(directory_path, filename))
 #     image_height, image_width, _ = image.shape
 #     # Convert the BGR image to RGB before processing.
 #     results = holistic.process(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
 
-#     if results.pose_landmarks:
-#       print(
-#           f'Nose coordinates: ('
-#           f'{results.pose_landmarks.landmark[mp_holistic.PoseLandmark.NOSE].x * image_width}, '
-#           f'{results.pose_landmarks.landmark[mp_holistic.PoseLandmark.NOSE].y * image_height})'
-#       )
+#     # if results.pose_landmarks:
+#     # print(
+#     #     f'Nose coordinates: ('
+#     #     f'{results.pose_landmarks.landmark[mp_holistic.PoseLandmark.NOSE].x * image_width}, '
+#     #     f'{results.pose_landmarks.landmark[mp_holistic.PoseLandmark.NOSE].y * image_height})'
+#     # )
 
-#     annotated_image = image.copy()
+#     # annotated_image = image.copy()
 #     # Draw segmentation on the image.
 #     # To improve segmentation around boundaries, consider applying a joint
 #     # bilateral filter to "results.segmentation_mask" with "image".
@@ -34,27 +40,32 @@ mp_holistic = mp.solutions.holistic
 #     bg_image = np.zeros(image.shape, dtype=np.uint8)
 #     bg_image[:] = BG_COLOR
 #     annotated_image = np.where(condition, annotated_image, bg_image)
-#     # Draw pose, left and right hands, and face landmarks on the image.
-#     mp_drawing.draw_landmarks(
-#         annotated_image,
-#         results.face_landmarks,
-#         mp_holistic.FACEMESH_TESSELATION,
-#         landmark_drawing_spec=None,
-#         connection_drawing_spec=mp_drawing_styles
-#         .get_default_face_mesh_tesselation_style())
-#     mp_drawing.draw_landmarks(
-#         annotated_image,
-#         results.pose_landmarks,
-#         mp_holistic.POSE_CONNECTIONS,
-#         landmark_drawing_spec=mp_drawing_styles.
-#         get_default_pose_landmarks_style())
-#     cv2.imwrite('/tmp/annotated_image' + str(idx) + '.png', annotated_image)
-#     # Plot pose world landmarks.
-#     mp_drawing.plot_landmarks(
-#         results.pose_world_landmarks, mp_holistic.POSE_CONNECTIONS)
+# #     # Draw pose, left and right hands, and face landmarks on the image.
+# #     mp_drawing.draw_landmarks(
+# #         annotated_image,
+# #         results.face_landmarks,
+# #         mp_holistic.FACEMESH_TESSELATION,
+# #         landmark_drawing_spec=None,
+# #         connection_drawing_spec=mp_drawing_styles
+# #         .get_default_face_mesh_tesselation_style())
+# #     mp_drawing.draw_landmarks(
+# #         annotated_image,
+# #         results.pose_landmarks,
+# #         mp_holistic.POSE_CONNECTIONS,
+# #         landmark_drawing_spec=mp_drawing_styles.
+# #         get_default_pose_landmarks_style())
+# #     cv2.imwrite('/tmp/annotated_image' + str(idx) + '.png', annotated_image)
+# #     # Plot pose world landmarks.
+# #     mp_drawing.plot_landmarks(
+# #         results.pose_world_landmarks, mp_holistic.POSE_CONNECTIONS)
 
 # For webcam input:
+
 cap = cv2.VideoCapture(0)
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1024)
+# cv2.namedWindow(window_name, cv2.WND_PROP_FULLSCREEN)
+# cv2.setWindowProperty(window_name, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
 with mp_holistic.Holistic(
     min_detection_confidence=0.5,
     min_tracking_confidence=0.5) as holistic:
@@ -171,6 +182,6 @@ with mp_holistic.Holistic(
             print(text)
     # Flip the image horizontally for a selfie-view display.
     cv2.imshow('MediaPipe Holistic', cv2.flip(image, 1))
-    if cv2.waitKey(5) & 0xFF == 27:
-      break
-cap.release()
+    cv2.waitKey(1)
+# df= pd.DataFrame({'mot1': fingers[1], 'mot2': fingers[2], 'mot2': fingers[2],'mot3': fingers[3],'mot4': fingers[4],'mot5':fingers[0],'wrist':fingers[5]}, index=[text])
+# df.to_csv("datasets2.csv",mode="a") 
