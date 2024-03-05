@@ -2,9 +2,10 @@
 # speech to text and text to speech
 
 import serial
-from time import sleep
+import time
 
 # Init arduino
+# arduinoData = serial.Serial(write_timeout=None, timeout=None)
 arduinoData = serial.Serial("COM7", 115200, write_timeout=None, timeout=None)
 
 
@@ -22,4 +23,12 @@ def send_coeffs(coeffs: tuple[float, float, float, float, float, float]):
     coeffs = f"{coeffs}\r"
     print(coeffs)
     arduinoData.write(coeffs.encode())
-    sleep(5)
+    time.sleep(1.5)
+
+
+# send_coeffs([0, 0, 0, 0, 0, 0])
+# send_coeffs([1, 0, 0, 0, 0, 0])
+# send_coeffs([0, 1, 0, 0, 0, 0])
+# send_coeffs([0, 0, 1, 0, 0, 0])
+# send_coeffs([0, 0, 0, 1, 0, 0])
+# send_coeffs([0, 0, 0, 0, 1, 0])

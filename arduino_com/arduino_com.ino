@@ -8,31 +8,29 @@ Servo index;
 Servo thumb;
 Servo wrist;
 
-float coeff;
-int pos = 0;
-int cr = 1;
-
 void setup()
 {
     Serial.begin(115200);
     // Attach servos
-    pinky.attach(11);
-    ring.attach(5);
+    index.attach(5);
     middle.attach(6);
-    index.attach(9);
+    ring.attach(10);
+    pinky.attach(11);
+    thumb.attach(9);
     wrist.attach(3);
-    thumb.attach(10);
+
+    // init
+    // index.write(0);
+    // middle.write(0);
+    // // ring.write(0);
+    // pinky.write(0);
+    // thumb.write(0);
+    // wrist.write(0);
 }
 
-void moveFinger(Servo finger, int idx, float coefficient)
+float rad_to_deg(float rad)
 {
-    int current = finger.read();
-    int final = 180 * coeff;
-    float diff = abs(current - final) / 180;
-    int cr = (pos - final) > 0 ? -1 : 1;
-    finger.write(pos + diff);
-    // Serial.println("pos: ");
-    // Serial.println(pos + diff);
+    return (180 * rad) / PI;
 }
 
 void loop()
@@ -43,11 +41,12 @@ void loop()
     }
 
     String myCmd = Serial.readStringUntil('\r');
-    StringSplitter *splitter = new StringSplitter(myCmd, '|', 6);
+    StringSplitter splitter(myCmd, '|', 6);
 
-    index.write(180 * splitter->getItemAtIndex(0).toFloat());
-    middle.write(180 * splitter->getItemAtIndex(1).toFloat());
-    ring.write(180 * splitter->getItemAtIndex(2).toFloat());
-
-    Serial.println("DONE\n");
+    index.write(2 * rad_to_deg(asin(splitter.getItemAtIndex(0).toFloat())));
+    middle.write(2 * rad_to_deg(asin(splitter.getItemAtIndex(1).toFloat())));
+    ring.write(2 * rad_to_deg(asin(splitter.getItemAtIndex(2).toFloat())));
+    pinky.write(2 * rad_to_deg(asin(splitter.getItemAtIndex(3).toFloat())));
+    thumb.write(2 * rad_to_deg(asin(splitter.getItemAtIndex(4).toFloat())));
+    wrist.write(2 * rad_to_deg(asin(splitter.getItemAtIndex(5).toFloat())));
 }
